@@ -1,0 +1,85 @@
+version: '2'
+
+services:
+
+  es-node1:
+    build:
+      context: es-node1/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./es-node1/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./es-node1/data:/usr/share/elasticsearch/data
+#      - ./es-node1/logs:/usr/share/elasticsearch/logs
+
+    ports:
+      - "9201:9201"
+      - "10108:9301"
+    environment:
+      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+    networks:
+      - elk_claster
+
+  es-node2:
+    build:
+      context: es-node2/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./es-node2/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./es-node2/data:/usr/share/elasticsearch/data
+#      - ./es-node2/logs:/usr/share/elasticsearch/logs
+
+    ports:
+      - "9202:9202"
+      - "10107:9302"
+    environment:
+      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+    networks:
+      - elk_claster
+
+  es-node3:
+    build:
+      context: es-node3/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./es-node3/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ./es-node3/data:/usr/share/elasticsearch/data
+#      - ./es-node3/logs:/usr/share/elasticsearch/logs
+
+    ports:
+      - "9203:9203"
+      - "10105:9303"
+    environment:
+      ES_JAVA_OPTS: "-Xmx1g -Xms1g"
+    networks:
+      - elk_claster
+
+  logstash:
+    build:
+      context: logstash/
+      args:
+        ELK_VERSION: $ELK_VERSION
+    volumes:
+      - ./logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+      - ./logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - /var/:/var/
+      - ./logstash/:/logstash/
+      - ./mysql-connector-java-5.1.46.jar:/mysql/mysql-connector-java-5.1.46.jar
+
+    ports:
+      - "5000:5000"
+      - "9600:9600"
+    environment:
+      LS_JAVA_OPTS: "-Xmx1g -Xms1g"
+    networks:
+      - elk_claster
+    depends_on:
+      - es-node1
+      - es-node2
+      - es-node3
+
+networks:
+  elk_claster:
+    driver: bridge

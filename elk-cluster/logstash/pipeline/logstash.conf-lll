@@ -1,0 +1,10 @@
+
+input {
+	stdin{}
+}
+
+## Add your filters / logstash plugins configuration here
+
+output {
+	stdout{}
+}

@@ -1,0 +1,75 @@
+
+version: '3'
+services:
+  master:
+    image: redis:5.0.3       ## 镜像
+    container_name: redis-master
+    command: redis-server /etc/redis/redis.conf
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/conf/redis.conf:/etc/redis/redis.conf
+      # - ./redis/data:/data
+    networks:
+      foonet:
+        ipv4_address: 172.22.1.11
+
+  slave1:
+    image: redis:5.0.3                ## 镜像
+    container_name: redis-slave-1
+    ports:
+      - "6380:6379"           ## 暴露端口
+    volumes:
+      - ./redis/conf/redis.conf:/etc/redis/redis.conf
+      # - ./redis/data:/data
+    command: redis-server /etc/redis/redis.conf --slaveof redis-master 6379 
+    depends_on:
+      - master
+    links:
+      - master:redis-master
+    networks:
+      foonet:
+        ipv4_address: 172.22.1.12
+
+  slave2:
+    image: redis:5.0.3                ## 镜像
+    container_name: redis-slave-2
+    ports:
+      - "6381:6379"           ## 暴露端口
+    volumes:
+      - ./redis/conf/redis.conf:/etc/redis/redis.conf
+      # - ./redis/data:/data
+    command: redis-server /etc/redis/redis.conf --slaveof redis-master 6379 
+    depends_on:
+      - master
+    links:
+      - master:redis-master
+    networks:
+      foonet:
+        ipv4_address: 172.22.1.13
+
+  sentinel:
+    image: redis:5.0.3
+    container_name: redis-sentinel
+    command: redis-sentinel /usr/local/etc/redis/sentinel.conf
+    volumes:
+      - "./sentinel/sentinel.conf:/usr/local/etc/redis/sentinel.conf"
+    environment:
+      - SENTINEL_DOWN_AFTER=5000
+      - SENTINEL_FAILOVER=5000    
+    links:
+      - master:redis-master
+      - slave1
+      - slave2
+    networks:
+      foonet:
+        ipv4_address: 172.22.1.10
+
+networks:
+  foonet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.1.0/24
+

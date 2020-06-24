@@ -1,0 +1,37 @@
+docker pull gitlab/gitlab-ce
+
+docker run --detach \
+--publish 22443:443 --publish 2280:80  --publish 2222:22 \
+--name gitlab \
+--memory 4g \
+--restart always \
+--volume /srv/gitlab/config:/etc/gitlab \
+--volume /srv/gitlab/logs:/var/log/gitlab \
+--volume /srv/gitlab/data:/var/opt/gitlab \
+gitlab/gitlab-ce:latest    
+
+docker restart xxxxxx
+
+
+
+https://docs.gitlab.com/omnibus/docker/
+http://wuyijun.cn/yong-dockerfang-shi-an-zhuang-gitlabfu-wu/
+
+
+version: '2'
+
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    restart: always
+#    environment:
+#     GITLAB_OMNIBUS_CONFIG: |
+       # Add any other gitlab.rb configuration here, each on its own line
+    ports:
+      - '2280:80'
+      - '22443:443'
+      - '2222:22'
+    volumes:
+      - './gitlab/config:/etc/gitlab'
+      - './gitlab/logs:/var/log/gitlab'
+      - './gitlab/data:/var/opt/gitlab'

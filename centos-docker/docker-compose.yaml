@@ -1,0 +1,14 @@
+
+version: '2.2'
+
+services:
+  centos:
+    image: centos:centos7
+    container_name: centos_for_virtual
+    ports:
+      - '10022:22'
+#    command: "tail -f /var/log/yum.log"
+    command: "/usr/sbin/init"
+    cpu_count: 2
+    mem_limit: 8192m
+    privileged: true

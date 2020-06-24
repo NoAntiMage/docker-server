@@ -1,0 +1,21 @@
+
+version: '2'
+
+services:
+  metricbeat:
+    build:
+      context: metricbeat/
+    container_name: "docker-elk-metricbeat"
+    user: "root"
+    volumes:
+      - ./metricbeat/config/metricbeat.yml:/usr/share/metricbeat/metricbeat.yml:ro
+      - ./metricbeat/config/modules.d:/usr/share/metricbeat/modules.d:ro
+      - /proc:/hostfs/proc:ro
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - WAIT_FOR_HOSTS=elasticsearch:9200
+      - ELASTICSEARCH_HOST=elasticsearch:9200
+    command: ["--strict.perms=false","--system.hostfs=/hostfs"]
+    network_mode: host

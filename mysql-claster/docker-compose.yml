@@ -1,0 +1,34 @@
+version: '2'
+
+services:
+
+  mysql-master:
+    build:
+      context: ./
+      dockerfile: master/Dockerfile
+    volumes:
+      - ./master/config/my.cnf:/etc/mysql/my.cnf
+      - ./master/log-bin/:/var/lib/mysql/
+    environment:
+      - "MYSQL_ROOT_PASSWORD=123456"
+    links:
+      - mysql-slave
+    ports:
+      - "3307:3306"
+    restart: always
+    hostname: master
+
+  mysql-slave:
+    build:
+      context: ./
+      dockerfile: slave/Dockerfile
+    volumes:
+      - ./slave/config/my.cnf:/etc/mysql/my.cnf
+      - ./slave/log-bin:/var/lib/mysql/
+    environment:
+      - "MYSQL_ROOT_PASSWORD=123456"
+    ports:
+      - "3308:3306"
+    restart: always
+    hostname: slave
+

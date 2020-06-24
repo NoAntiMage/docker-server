@@ -1,0 +1,9 @@
+version: '2'
+services:
+  rancher:
+    image: rancher/rancher
+    restart: unless-stopped
+    container_name: rancher
+    ports:
+      - '80:80'
+      - '443:443'
