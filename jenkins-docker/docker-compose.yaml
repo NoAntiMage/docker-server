@@ -1,0 +1,15 @@
+version: '3.7'
+services:
+  my_jenkins:
+    image: jenkins/jenkins:lts
+    container_name: docker_jenkins
+    restart: always
+    ports:
+      - '8080:8080'
+      - '50000:50000'
+    volumes:
+      - ./data/:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      # configure mvn env
+      # - /opt/apache-maven-3.6.3:/opt/apache-maven-3.6.3
