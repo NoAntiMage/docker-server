@@ -1,0 +1,6 @@
+{
+    "registry-mirrors": ["https://registry.docker-cn.com"],
+    "live-restore":true,
+    "cluster-store": "consul://172.26.55.210:8500",
+    "cluster-advertise": "172.26.55.132:2375"
+}
