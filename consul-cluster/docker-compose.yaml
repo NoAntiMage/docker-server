@@ -22,8 +22,8 @@ services:
   consul-server-bootstrap:
     image: consul:latest
     ports:
-      - "8400:8400"
-      - "8500:8500"
-      - "8600:8600"
-      - "8600:8600/udp"
+      - "8403:8400"
+      - "8503:8500"
+      - "8603:8600"
+      - "8603:8600/udp"
     command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
