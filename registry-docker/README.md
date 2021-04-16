@@ -41,7 +41,7 @@ curl --head localhost:5000/v2/nginx/manifests/v1
 #获取nginx:v1正确的digest(registry 版本自2.3起)
 curl \
 --head \
--H 'Accept: application/vnd.docker.distribution.manifest.v2+json'\
+-H 'Accept: application/vnd.docker.distribution.manifest.v2+json' \
 localhost:5000/v2/nginx/manifests/v1 
 
 #删除nginx:v1
