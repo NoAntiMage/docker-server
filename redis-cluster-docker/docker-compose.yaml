@@ -1,0 +1,91 @@
+version: '3'
+services:
+   redis1:
+      image: redis:5.0.4
+      container_name: redis1
+      restart: always
+      ports:
+        - 7001:7001
+        - 17001:17001
+      volumes:
+        - ./redis/7001/conf/redis.conf:/etc/redis/redis.conf
+        - ./redis/7001/logs:/usr/local/redis/logs
+        - ./redis/7001/data:/data
+      environment:
+        - TZ=Asia/Shanghai
+      command: redis-server /etc/redis/redis.conf
+
+   redis2:
+      image: redis:5.0.4
+      container_name: redis2
+      restart: always
+      ports:
+        - 7002:7002
+        - 17002:17002
+      volumes:
+        - ./redis/7002/conf/redis.conf:/etc/redis/redis.conf
+        - ./redis/7002/logs:/usr/local/redis/logs
+        - ./redis/7002/data:/data
+      environment:
+        - TZ=Asia/Shanghai
+      command: redis-server /etc/redis/redis.conf
+
+   redis3:
+      image: redis:5.0.4
+      container_name: redis3
+      restart: always
+      ports:
+        - 7003:7003
+        - 17003:17003
+      volumes:
+        - ./redis/7003/conf/redis.conf:/etc/redis/redis.conf
+        - ./redis/7003/logs:/usr/local/redis/logs
+        - ./redis/7003/data:/data
+      environment:
+        - TZ=Asia/Shanghai
+      command: redis-server /etc/redis/redis.conf
+
+   redis4:
+      image: redis:5.0.4
+      container_name: redis4
+      restart: always
+      ports:
+        - 7004:7004
+        - 17004:17004
+      volumes:
+        - ./redis/7004/conf/redis.conf:/etc/redis/redis.conf
+        - ./redis/7004/logs:/usr/local/redis/logs
+        - ./redis/7004/data:/data
+      environment:
+        - TZ=Asia/Shanghai
+      command: redis-server /etc/redis/redis.conf
+
+   redis5:
+      image: redis:5.0.4
+      container_name: redis5
+      restart: always
+      ports:
+        - 7005:7005
+        - 17005:17005
+      volumes:
+        - ./redis/7005/conf/redis.conf:/etc/redis/redis.conf
+        - ./redis/7005/logs:/usr/local/redis/logs
+        - ./redis/7005/data:/data
+      environment:
+        - TZ=Asia/Shanghai
+      command: redis-server /etc/redis/redis.conf
+
+   redis6:
+      image: redis:5.0.4
+      container_name: redis6
+      restart: always
+      ports:
+        - 7006:7006
+        - 17006:17006
+      volumes:
+        - ./redis/7006/conf/redis.conf:/etc/redis/redis.conf
+        - ./redis/7006/logs:/usr/local/redis/logs
+        - ./redis/7006/data:/data
+      environment:
+        - TZ=Asia/Shanghai
+      command: redis-server /etc/redis/redis.conf
